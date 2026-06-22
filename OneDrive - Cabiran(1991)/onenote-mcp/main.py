@@ -14,8 +14,10 @@ import os
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 from mcp.server.fastmcp import FastMCP
+from mcp.server.sse import SseServerTransport
+from starlette.applications import Starlette
+from starlette.routing import Mount, Route
 
 from allowlist import load_allowlist, write_default_allowlist
 from auth.routes import router as auth_router
@@ -139,5 +141,26 @@ async def startup():
 
 
 # Mount MCP SSE transport under /mcp
-mcp_app = mcp.get_asgi_app()
-app.mount("/mcp", mcp_app)
+# mcp==1.2.0 exposes SseServerTransport directly; no get_asgi_app() method exists.
+_sse_transport = SseServerTransport("/mcp/messages/")
+
+
+async def _handle_sse(request: Request):
+    async with _sse_transport.connect_sse(
+        request.scope, request.receive, request._send
+    ) as streams:
+        await mcp._mcp_server.run(
+            streams[0],
+            streams[1],
+            mcp._mcp_server.create_initialization_options(),
+        )
+
+
+_mcp_starlette = Starlette(
+    routes=[
+        Route("/sse", endpoint=_handle_sse),
+        Mount("/messages/", app=_sse_transport.handle_post_message),
+    ],
+)
+
+app.mount("/mcp", _mcp_starlette)
