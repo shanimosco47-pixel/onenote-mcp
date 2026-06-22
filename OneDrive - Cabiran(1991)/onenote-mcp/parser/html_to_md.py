@@ -135,7 +135,7 @@ def parse_onenote_html(html: bytes, max_chars: Optional[int] = None) -> str:
     Returns:
         Clean markdown string.
     """
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(html, "html.parser")
 
     # Remove all <style> blocks and inline style attributes
     for tag in soup.find_all(True):

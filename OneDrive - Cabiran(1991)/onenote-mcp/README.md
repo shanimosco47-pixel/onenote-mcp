@@ -11,7 +11,7 @@ Remote MCP server connecting Claude to Shani's OneNote (Cabiran work account) vi
 
 ## Prerequisites
 
-- Python 3.11+
+- **Python 3.11 or later** (tested on Python 3.14.2 on Windows — all dependencies install as pure-Python wheels, no C compiler or system libraries required)
 - A Render account with a **persistent disk** mounted at `/data`
 - An app registration in Cabiran's Azure AD with `Notes.Read` delegated permission and a redirect URI pointing to `/auth/callback`
 
