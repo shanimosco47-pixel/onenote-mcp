@@ -1,0 +1,2 @@
+# onenote-mcp
+onenote-mcp
