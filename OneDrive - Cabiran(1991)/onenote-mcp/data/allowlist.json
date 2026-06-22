@@ -1,0 +1,31 @@
+{
+  "allowed_notebooks": [
+    {
+      "id": "<notebook-graph-id>",
+      "display_name": "Work - Shani"
+    }
+  ],
+  "allowed_sections": [
+    {
+      "id": "<section-graph-id>",
+      "display_name": "Active",
+      "notebook_id": "<notebook-graph-id>"
+    },
+    {
+      "id": "<section-graph-id>",
+      "display_name": "השבוע",
+      "notebook_id": "<notebook-graph-id>"
+    },
+    {
+      "id": "<section-graph-id>",
+      "display_name": "נושאים פתוחים",
+      "notebook_id": "<notebook-graph-id>"
+    },
+    {
+      "id": "<section-graph-id>",
+      "display_name": "הנהלה",
+      "notebook_id": "<notebook-graph-id>"
+    }
+  ],
+  "default_deny": true
+}
